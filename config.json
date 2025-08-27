@@ -1,11 +1,11 @@
 {
-  "created": "2025-08-27T01:40:37.936163",
+  "created": "2025-08-28T00:48:57.551496",
   "auto_stop_minutes": "120",
   "buttons": [
     {
       "id": "btn_1",
       "type": "click",
-      "x": 82,
+      "x": 131,
       "y": 618,
       "duration": 0.5,
       "end_x": 0,
@@ -14,8 +14,8 @@
     {
       "id": "btn_2",
       "type": "click",
-      "x": 855,
-      "y": 445,
+      "x": 892,
+      "y": 407,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -32,17 +32,17 @@
     {
       "id": "btn_4",
       "type": "drag",
-      "x": 600,
-      "y": 200,
+      "x": 640,
+      "y": 261,
       "duration": 0.5,
-      "end_x": 600,
+      "end_x": 640,
       "end_y": 400
     },
     {
       "id": "btn_5",
       "type": "click",
-      "x": 126,
-      "y": 640,
+      "x": 263,
+      "y": 634,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -50,18 +50,18 @@
     {
       "id": "btn_8",
       "type": "click_drag",
-      "x": 588,
-      "y": 96,
+      "x": 718,
+      "y": 105,
       "duration": 0.5,
-      "end_x": 982,
-      "end_y": 364,
+      "end_x": 1031,
+      "end_y": 348,
       "steps": 10
     },
     {
       "id": "btn_16",
       "type": "click",
-      "x": 699,
-      "y": 640,
+      "x": 719,
+      "y": 632,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -69,11 +69,11 @@
     {
       "id": "btn_17",
       "type": "click_drag",
-      "x": 597,
-      "y": 154,
+      "x": 677,
+      "y": 151,
       "duration": 0.5,
-      "end_x": 957,
-      "end_y": 432,
+      "end_x": 966,
+      "end_y": 379,
       "steps": 5
     },
     {
@@ -81,15 +81,15 @@
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 45.0,
+      "duration": 40.0,
       "end_x": 0,
       "end_y": 0
     },
     {
       "id": "btn_9",
       "type": "click",
-      "x": 95,
-      "y": 525,
+      "x": 134,
+      "y": 542,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -106,8 +106,8 @@
     {
       "id": "btn_11",
       "type": "click",
-      "x": 716,
-      "y": 473,
+      "x": 754,
+      "y": 429,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -124,8 +124,8 @@
     {
       "id": "btn_12",
       "type": "click",
-      "x": 585,
-      "y": 613,
+      "x": 640,
+      "y": 565,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
