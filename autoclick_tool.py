@@ -63,6 +63,7 @@ class AutoClickTool:
         file_frame.pack(fill=tk.X, pady=2)
         ttk.Button(file_frame, text="Lưu kịch bản", command=self.save_scenario, width=10).pack(side=tk.LEFT, padx=2)
         ttk.Button(file_frame, text="Tải kịch bản", command=self.load_scenario, width=10).pack(side=tk.LEFT, padx=2)
+        ttk.Button(file_frame, text="Hiển thị vị trí", command=self.show_overlay, width=12).pack(side=tk.LEFT, padx=2)
 
         # Auto Stop Minutes
         time_frame = ttk.Frame(control_frame)
@@ -370,6 +371,34 @@ class AutoClickTool:
             pyautogui.moveTo(x, y)
             pyautogui.click()
             time.sleep(0.03)
+
+    def show_overlay(self):
+        import tkinter as tk
+        overlay = tk.Toplevel(self.root)
+        overlay.attributes('-topmost', True)
+        overlay.attributes('-alpha', 0.5)
+        overlay.overrideredirect(True)
+        screen_width = overlay.winfo_screenwidth()
+        screen_height = overlay.winfo_screenheight()
+        overlay.geometry(f"{screen_width}x{screen_height}+0+0")
+        # Đặt màu nền canvas thành màu đen nhạt để dễ nhìn
+        canvas = tk.Canvas(overlay, width=screen_width, height=screen_height, bg='#222222', highlightthickness=0)
+        canvas.pack(fill=tk.BOTH, expand=True)
+        # Vẽ các điểm
+        for btn in self.manager.buttons:
+            try:
+                if btn.type in ('click', 'drag', 'click_drag'):
+                    x, y = int(btn.x), int(btn.y)
+                    canvas.create_oval(x-8, y-8, x+8, y+8, fill='red', outline='yellow', width=2)
+                    canvas.create_text(x, y-15, text=f"{btn.type.upper()}", fill='white')
+                    if btn.type in ('drag', 'click_drag'):
+                        ex, ey = int(btn.end_x), int(btn.end_y)
+                        canvas.create_oval(ex-8, ey-8, ex+8, ey+8, fill='blue', outline='white', width=2)
+                        canvas.create_line(x, y, ex, ey, fill='green', width=2, dash=(4,2))
+            except Exception as e:
+                print(f"Error drawing button: {e}")
+        # Đóng overlay khi click
+        overlay.bind("<Button-1>", lambda e: overlay.destroy())
 
     def run(self):
         self.root.mainloop()
