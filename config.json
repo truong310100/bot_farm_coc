@@ -1,6 +1,6 @@
 {
   "created": "2025-08-27T01:40:37.936163",
-  "auto_stop_minutes": "1",
+  "auto_stop_minutes": "120",
   "buttons": [
     {
       "id": "btn_1",
