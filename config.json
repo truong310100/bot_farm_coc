@@ -1,21 +1,28 @@
 {
-  "created": "2025-08-28T00:48:57.551496",
+  "created": "2025-08-29T01:15:25.682625",
   "auto_stop_minutes": "120",
   "buttons": [
     {
       "id": "btn_1",
       "type": "click",
-      "x": 131,
-      "y": 618,
+      "x": 65,
+      "y": 481,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
     },
     {
+      "id": "btn_19",
+      "type": "wait",
+      "x": 100,
+      "y": 100,
+      "duration": 1.0
+    },
+    {
       "id": "btn_2",
       "type": "click",
-      "x": 892,
-      "y": 407,
+      "x": 632,
+      "y": 325,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -25,24 +32,24 @@
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 5.0,
+      "duration": 10.0,
       "end_x": 0,
       "end_y": 0
     },
     {
       "id": "btn_4",
       "type": "drag",
-      "x": 640,
-      "y": 261,
+      "x": 444,
+      "y": 217,
       "duration": 0.5,
-      "end_x": 640,
-      "end_y": 400
+      "end_x": 444,
+      "end_y": 320
     },
     {
       "id": "btn_5",
       "type": "click",
-      "x": 263,
-      "y": 634,
+      "x": 164,
+      "y": 494,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -50,18 +57,28 @@
     {
       "id": "btn_8",
       "type": "click_drag",
-      "x": 718,
-      "y": 105,
+      "x": 502,
+      "y": 100,
       "duration": 0.5,
-      "end_x": 1031,
-      "end_y": 348,
-      "steps": 10
+      "end_x": 734,
+      "end_y": 281,
+      "steps": 4
+    },
+    {
+      "id": "btn_8_copy",
+      "type": "click_drag",
+      "x": 385,
+      "y": 104,
+      "duration": 0.5,
+      "end_x": 191,
+      "end_y": 260,
+      "steps": 6
     },
     {
       "id": "btn_16",
       "type": "click",
-      "x": 719,
-      "y": 632,
+      "x": 501,
+      "y": 493,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -69,27 +86,136 @@
     {
       "id": "btn_17",
       "type": "click_drag",
-      "x": 677,
-      "y": 151,
+      "x": 524,
+      "y": 175,
       "duration": 0.5,
-      "end_x": 966,
-      "end_y": 379,
-      "steps": 5
+      "end_x": 686,
+      "end_y": 303,
+      "steps": 2
+    },
+    {
+      "id": "btn_17_copy",
+      "type": "click_drag",
+      "x": 383,
+      "y": 167,
+      "duration": 0.5,
+      "end_x": 251,
+      "end_y": 275,
+      "steps": 3
+    },
+    {
+      "id": "btn_16_1",
+      "type": "click",
+      "x": 443,
+      "y": 493,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_1_copy",
+      "type": "click",
+      "x": 662,
+      "y": 224,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_2",
+      "type": "click",
+      "x": 389,
+      "y": 494,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_2_copy",
+      "type": "click",
+      "x": 613,
+      "y": 187,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_3",
+      "type": "click",
+      "x": 334,
+      "y": 494,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_3_copy",
+      "type": "click",
+      "x": 560,
+      "y": 146,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_4",
+      "type": "click",
+      "x": 277,
+      "y": 495,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_4_copy",
+      "type": "click",
+      "x": 341,
+      "y": 136,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_5",
+      "type": "click",
+      "x": 218,
+      "y": 496,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_16_5_copy",
+      "type": "click",
+      "x": 249,
+      "y": 208,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_5_copy",
+      "type": "click",
+      "x": 297,
+      "y": 172,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
     },
     {
       "id": "btn_10",
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 40.0,
+      "duration": 50.0,
       "end_x": 0,
       "end_y": 0
     },
     {
       "id": "btn_9",
       "type": "click",
-      "x": 134,
-      "y": 542,
+      "x": 68,
+      "y": 424,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -106,8 +232,8 @@
     {
       "id": "btn_11",
       "type": "click",
-      "x": 754,
-      "y": 429,
+      "x": 529,
+      "y": 340,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
@@ -124,8 +250,8 @@
     {
       "id": "btn_12",
       "type": "click",
-      "x": 640,
-      "y": 565,
+      "x": 444,
+      "y": 442,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0

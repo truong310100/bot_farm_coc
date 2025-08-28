@@ -1,0 +1,1 @@
+start "" "py C:\Users\admin\Desktop\Project\botCoC\main.py"

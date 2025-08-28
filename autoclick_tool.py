@@ -8,7 +8,7 @@ import pyautogui
 import time
 import threading
 from models import ActionButton
-from scenario_manager import ScenarioManager
+from utils.scenario_manager import ScenarioManager
 
 class AutoClickTool:
     def __init__(self):
@@ -87,10 +87,21 @@ class AutoClickTool:
         self.tree.bind('<Double-1>', self.edit_button)
         self.tree.bind('<Button-3>', self.show_context_menu)
         self.tree.bind('<ButtonRelease-1>', self.on_tree_select)
+        self.tree.bind('<Button-1>', self.on_tree_drag_start)
+        self.tree.bind('<B1-Motion>', self.on_tree_drag_motion)
+        self.tree.bind('<ButtonRelease-1>', self.on_tree_drag_drop)
 
         # Edit Frame
         edit_frame = ttk.LabelFrame(right_frame, text="Chỉnh sửa hành động", padding=10)
         edit_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Thêm trường nhập ID
+        id_frame = ttk.Frame(edit_frame)
+        id_frame.pack(fill=tk.X, pady=5)
+        ttk.Label(id_frame, text="ID:").pack(side=tk.LEFT)
+        self.id_var = tk.StringVar()
+        ttk.Entry(id_frame, textvariable=self.id_var, width=15).pack(side=tk.LEFT, padx=5)
+
         coord_frame = ttk.Frame(edit_frame)
         coord_frame.pack(fill=tk.X, pady=5)
         ttk.Label(coord_frame, text="X:").pack(side=tk.LEFT)
@@ -150,6 +161,7 @@ class AutoClickTool:
     def select_button(self, button: ActionButton):
         self.selected_button = button
         self.tree.selection_set(button.id)
+        self.id_var.set(str(button.id))  # Thêm dòng này
         self.x_var.set(str(button.x))
         self.y_var.set(str(button.y))
         if button.type == 'wait':
@@ -178,6 +190,14 @@ class AutoClickTool:
             messagebox.showwarning("Cảnh báo", "Vui lòng chọn một hành động để cập nhật!")
             return
         try:
+            new_id = self.id_var.get().strip()
+            if not new_id:
+                messagebox.showerror("Lỗi", "ID không được để trống!")
+                return
+            # Kiểm tra trùng ID
+            if new_id != self.selected_button.id and any(b.id == new_id for b in self.manager.buttons):
+                messagebox.showerror("Lỗi", "ID đã tồn tại, vui lòng chọn ID khác!")
+                return
             kwargs = {
                 "x": int(self.x_var.get() or 0),
                 "y": int(self.y_var.get() or 0),
@@ -189,9 +209,13 @@ class AutoClickTool:
                 kwargs["end_y"] = int(self.end_y_var.get() or 0)
                 if self.selected_button.type == 'click_drag':
                     kwargs["steps"] = int(self.steps_var.get() or 10)
-            button = self.manager.update_button(self.selected_button.id, **kwargs)
+            # Cập nhật id nếu đổi
+            old_id = self.selected_button.id
+            self.selected_button.id = new_id
+            button = self.manager.update_button(new_id, **kwargs)
             if button:
                 self.refresh_tree()
+                self.tree.selection_set(new_id)
                 messagebox.showinfo("Thành công", "Đã cập nhật hành động!")
         except ValueError as e:
             messagebox.showerror("Lỗi", f"Giá trị không hợp lệ: {e}")
@@ -374,6 +398,7 @@ class AutoClickTool:
 
     def show_overlay(self):
         import tkinter as tk
+
         overlay = tk.Toplevel(self.root)
         overlay.attributes('-topmost', True)
         overlay.attributes('-alpha', 0.5)
@@ -383,24 +408,190 @@ class AutoClickTool:
         overlay.geometry(f"{screen_width}x{screen_height}+0+0")
         canvas = tk.Canvas(overlay, width=screen_width, height=screen_height, bg='#222222', highlightthickness=0)
         canvas.pack(fill=tk.BOTH, expand=True)
-        for btn in self.manager.buttons:
-            try:
-                if btn.type in ('click', 'drag', 'click_drag'):
-                    x, y = int(btn.x), int(btn.y)
-                    canvas.create_oval(x-8, y-8, x+8, y+8, fill='red', outline='yellow', width=2)
-                    # Hiển thị ID ngay dưới điểm
-                    canvas.create_text(x, y+18, text=f"ID: {btn.id}", fill='cyan', font=('Arial', 10, 'bold'))
-                    # Hiển thị loại action phía trên
-                    canvas.create_text(x, y-15, text=f"{btn.type.upper()}", fill='white')
-                    if btn.type in ('drag', 'click_drag'):
-                        ex, ey = int(btn.end_x), int(btn.end_y)
-                        canvas.create_oval(ex-8, ey-8, ex+8, ey+8, fill='blue', outline='white', width=2)
-                        canvas.create_line(x, y, ex, ey, fill='green', width=2, dash=(4,2))
-                        # Hiển thị ID điểm cuối nếu muốn
-                        canvas.create_text(ex, ey+18, text=f"ID: {btn.id}", fill='cyan', font=('Arial', 10, 'bold'))
-            except Exception as e:
-                print(f"Error drawing button: {e}")
-        overlay.bind("<Button-1>", lambda e: overlay.destroy())
 
+        state = {
+            "dx": 0,
+            "dy": 0,
+            "scale": 1.0,
+            "drag_start": None,
+            "dragging_btn": None,
+            "drag_offset": (0, 0),
+        }
+
+        def draw_all():
+            canvas.delete("all")
+            for btn in self.manager.buttons:
+                try:
+                    if btn.type in ('click', 'drag', 'click_drag'):
+                        x = int(btn.x * state["scale"] + state["dx"])
+                        y = int(btn.y * state["scale"] + state["dy"])
+                        oval = canvas.create_oval(x-8, y-8, x+8, y+8, fill='red', outline='yellow', width=2, tags=f"btn_{btn.id}")
+                        canvas.create_text(x, y+18, text=f"ID: {btn.id}", fill='cyan', font=('Arial', 10, 'bold'))
+                        canvas.create_text(x, y-15, text=f"{btn.type.upper()}", fill='white')
+                        if btn.type in ('drag', 'click_drag'):
+                            ex = int(btn.end_x * state["scale"] + state["dx"])
+                            ey = int(btn.end_y * state["scale"] + state["dy"])
+                            canvas.create_oval(ex-8, ey-8, ex+8, ey+8, fill='blue', outline='white', width=2, tags=f"btn_end_{btn.id}")
+                            canvas.create_line(x, y, ex, ey, fill='green', width=2, dash=(4,2))
+                            canvas.create_text(ex, ey+18, text=f"ID: {btn.id}", fill='cyan', font=('Arial', 10, 'bold'))
+                except Exception as e:
+                    print(f"Error drawing button: {e}")
+
+        def find_btn_at(x, y):
+            for btn in reversed(self.manager.buttons):  # Ưu tiên nút vẽ sau (trên cùng)
+                if btn.type in ('click', 'drag', 'click_drag'):
+                    bx = int(btn.x * state["scale"] + state["dx"])
+                    by = int(btn.y * state["scale"] + state["dy"])
+                    if abs(x - bx) <= 10 and abs(y - by) <= 10:
+                        return btn, 'start'
+                    if btn.type in ('drag', 'click_drag'):
+                        ex = int(btn.end_x * state["scale"] + state["dx"])
+                        ey = int(btn.end_y * state["scale"] + state["dy"])
+                        if abs(x - ex) <= 10 and abs(y - ey) <= 10:
+                            return btn, 'end'
+            return None, None
+
+        def on_mouse_down(event):
+            btn, pos = find_btn_at(event.x, event.y)
+            if btn:
+                state["dragging_btn"] = (btn, pos)
+                if pos == 'start':
+                    bx = int(btn.x * state["scale"] + state["dx"])
+                    by = int(btn.y * state["scale"] + state["dy"])
+                    state["drag_offset"] = (event.x - bx, event.y - by)
+                else:
+                    ex = int(btn.end_x * state["scale"] + state["dx"])
+                    ey = int(btn.end_y * state["scale"] + state["dy"])
+                    state["drag_offset"] = (event.x - ex, event.y - ey)
+            else:
+                state["drag_start"] = (event.x, event.y)
+
+        def on_mouse_move(event):
+            if state["dragging_btn"]:
+                btn, pos = state["dragging_btn"]
+                offset_x, offset_y = state["drag_offset"]
+                new_x = int((event.x - offset_x - state["dx"]) / state["scale"])
+                new_y = int((event.y - offset_y - state["dy"]) / state["scale"])
+                if pos == 'start':
+                    btn.x = new_x
+                    btn.y = new_y
+                else:
+                    btn.end_x = new_x
+                    btn.end_y = new_y
+                draw_all()
+            elif state["drag_start"]:
+                dx = event.x - state["drag_start"][0]
+                dy = event.y - state["drag_start"][1]
+                state["dx"] += dx
+                state["dy"] += dy
+                state["drag_start"] = (event.x, event.y)
+                draw_all()
+
+        def on_mouse_up(event):
+            state["drag_start"] = None
+            state["dragging_btn"] = None
+
+        def on_mouse_wheel(event):
+            if hasattr(event, 'delta'):
+                delta = event.delta
+            elif hasattr(event, 'num'):
+                delta = 120 if event.num == 4 else -120
+            else:
+                delta = 0
+            mouse_x = event.x
+            mouse_y = event.y
+            old_scale = state["scale"]
+            zoom_factor = 1.02
+            if delta > 0:
+                state["scale"] *= zoom_factor
+            else:
+                state["scale"] /= zoom_factor
+            state["dx"] = mouse_x - (mouse_x - state["dx"]) * (state["scale"] / old_scale)
+            state["dy"] = mouse_y - (mouse_y - state["dy"]) * (state["scale"] / old_scale)
+            draw_all()
+
+        def on_right_click(event):
+            btn, pos = find_btn_at(event.x, event.y)
+            if btn:
+                # Duplicate button
+                import copy
+                new_btn = copy.deepcopy(btn)
+                new_btn.id = f"{btn.id}_copy"
+                if pos == 'start':
+                    new_btn.x += 20  # Dịch sang phải một chút để dễ nhìn
+                    new_btn.y += 20
+                else:
+                    new_btn.end_x += 20
+                    new_btn.end_y += 20
+                self.manager.buttons.append(new_btn)
+                draw_all()
+                self.refresh_tree()
+                messagebox.showinfo("Thành công", f"Đã nhân bản tọa độ ID: {btn.id}")
+            else:
+                overlay.destroy()
+
+        canvas.bind("<ButtonPress-1>", on_mouse_down)
+        canvas.bind("<B1-Motion>", on_mouse_move)
+        canvas.bind("<ButtonRelease-1>", on_mouse_up)
+        canvas.bind("<MouseWheel>", on_mouse_wheel)
+        canvas.bind("<Button-4>", on_mouse_wheel)
+        canvas.bind("<Button-5>", on_mouse_wheel)
+        canvas.bind("<Button-3>", on_right_click)
+
+        def save_new_positions():
+            for btn in self.manager.buttons:
+                if btn.type in ('click', 'drag', 'click_drag'):
+                    btn.x = int(round((btn.x * state["scale"] + state["dx"])))
+                    btn.y = int(round((btn.y * state["scale"] + state["dy"])))
+                    if btn.type in ('drag', 'click_drag'):
+                        btn.end_x = int(round((btn.end_x * state["scale"] + state["dx"])))
+                        btn.end_y = int(round((btn.end_y * state["scale"] + state["dy"])))
+            state["dx"] = 0
+            state["dy"] = 0
+            state["scale"] = 1.0
+            draw_all()
+            self.refresh_tree()
+            messagebox.showinfo("Thành công", "Đã lưu lại vị trí mới!")
+
+        btn_save = tk.Button(overlay, text="Lưu vị trí hiển thị", command=save_new_positions)
+        btn_save.place(x=20, y=20)
+
+        draw_all()
+        
     def run(self):
         self.root.mainloop()
+
+# ...existing code...
+
+    def on_tree_drag_start(self, event):
+        item = self.tree.identify_row(event.y)
+        if item:
+            self._dragging_item = item
+            self._dragging_index = next((i for i, b in enumerate(self.manager.buttons) if b.id == item), None)
+        else:
+            self._dragging_item = None
+            self._dragging_index = None
+
+    def on_tree_drag_motion(self, event):
+        if not hasattr(self, '_dragging_item') or not self._dragging_item:
+            return
+        target = self.tree.identify_row(event.y)
+        # Highlight dòng đích
+        self.tree.selection_remove(self.tree.selection())
+        if target:
+            self.tree.selection_set(target)
+
+    def on_tree_drag_drop(self, event):
+        if not hasattr(self, '_dragging_item') or not self._dragging_item:
+            return
+        target = self.tree.identify_row(event.y)
+        if target and target != self._dragging_item:
+            idx_from = self._dragging_index
+            idx_to = next((i for i, b in enumerate(self.manager.buttons) if b.id == target), None)
+            if idx_from is not None and idx_to is not None and idx_from != idx_to:
+                btn = self.manager.buttons.pop(idx_from)
+                self.manager.buttons.insert(idx_to, btn)
+                self.refresh_tree()
+                self.tree.selection_set(btn.id)
+        self._dragging_item = None
+        self._dragging_index = None
