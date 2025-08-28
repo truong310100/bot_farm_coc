@@ -94,14 +94,6 @@ class AutoClickTool:
         # Edit Frame
         edit_frame = ttk.LabelFrame(right_frame, text="Chỉnh sửa hành động", padding=10)
         edit_frame.pack(fill=tk.BOTH, expand=True)
-
-        # Thêm trường nhập ID
-        id_frame = ttk.Frame(edit_frame)
-        id_frame.pack(fill=tk.X, pady=5)
-        ttk.Label(id_frame, text="ID:").pack(side=tk.LEFT)
-        self.id_var = tk.StringVar()
-        ttk.Entry(id_frame, textvariable=self.id_var, width=15).pack(side=tk.LEFT, padx=5)
-
         coord_frame = ttk.Frame(edit_frame)
         coord_frame.pack(fill=tk.X, pady=5)
         ttk.Label(coord_frame, text="X:").pack(side=tk.LEFT)
@@ -161,7 +153,6 @@ class AutoClickTool:
     def select_button(self, button: ActionButton):
         self.selected_button = button
         self.tree.selection_set(button.id)
-        self.id_var.set(str(button.id))  # Thêm dòng này
         self.x_var.set(str(button.x))
         self.y_var.set(str(button.y))
         if button.type == 'wait':
@@ -190,14 +181,6 @@ class AutoClickTool:
             messagebox.showwarning("Cảnh báo", "Vui lòng chọn một hành động để cập nhật!")
             return
         try:
-            new_id = self.id_var.get().strip()
-            if not new_id:
-                messagebox.showerror("Lỗi", "ID không được để trống!")
-                return
-            # Kiểm tra trùng ID
-            if new_id != self.selected_button.id and any(b.id == new_id for b in self.manager.buttons):
-                messagebox.showerror("Lỗi", "ID đã tồn tại, vui lòng chọn ID khác!")
-                return
             kwargs = {
                 "x": int(self.x_var.get() or 0),
                 "y": int(self.y_var.get() or 0),
@@ -209,13 +192,9 @@ class AutoClickTool:
                 kwargs["end_y"] = int(self.end_y_var.get() or 0)
                 if self.selected_button.type == 'click_drag':
                     kwargs["steps"] = int(self.steps_var.get() or 10)
-            # Cập nhật id nếu đổi
-            old_id = self.selected_button.id
-            self.selected_button.id = new_id
-            button = self.manager.update_button(new_id, **kwargs)
+            button = self.manager.update_button(self.selected_button.id, **kwargs)
             if button:
                 self.refresh_tree()
-                self.tree.selection_set(new_id)
                 messagebox.showinfo("Thành công", "Đã cập nhật hành động!")
         except ValueError as e:
             messagebox.showerror("Lỗi", f"Giá trị không hợp lệ: {e}")
