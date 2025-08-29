@@ -1,6 +1,6 @@
 {
-  "created": "2025-08-29T08:37:44.599165",
-  "auto_stop_minutes": "120",
+  "created": "2025-08-29T21:20:34.364845",
+  "auto_stop_minutes": "30",
   "buttons": [
     {
       "id": "btn_1",
@@ -12,216 +12,182 @@
       "end_y": 0
     },
     {
-      "id": "btn_19",
+      "id": "btn_2",
       "type": "wait",
       "x": 100,
       "y": 100,
       "duration": 1.0
     },
     {
-      "id": "btn_2",
-      "type": "click",
-      "x": 1243,
-      "y": 594,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
       "id": "btn_3",
-      "type": "wait",
-      "x": 100,
-      "y": 100,
-      "duration": 10.0,
+      "type": "click",
+      "x": 1284,
+      "y": 646,
+      "duration": 0.5,
       "end_x": 0,
       "end_y": 0
     },
     {
       "id": "btn_4",
-      "type": "drag",
-      "x": 958,
-      "y": 430,
-      "duration": 0.5,
-      "end_x": 958,
-      "end_y": 587
-    },
-    {
-      "id": "btn_5",
-      "type": "click",
-      "x": 534,
-      "y": 851,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_8",
-      "type": "click_drag",
-      "x": 1046,
-      "y": 253,
-      "duration": 0.5,
-      "end_x": 1398,
-      "end_y": 528,
-      "steps": 4
-    },
-    {
-      "id": "btn_8_copy",
-      "type": "click_drag",
-      "x": 868,
-      "y": 260,
-      "duration": 0.5,
-      "end_x": 574,
-      "end_y": 495,
-      "steps": 6
-    },
-    {
-      "id": "btn_16",
-      "type": "click",
-      "x": 1044,
-      "y": 849,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_17",
-      "type": "click_drag",
-      "x": 1079,
-      "y": 367,
-      "duration": 0.5,
-      "end_x": 1325,
-      "end_y": 561,
-      "steps": 2
-    },
-    {
-      "id": "btn_17_copy",
-      "type": "click_drag",
-      "x": 865,
-      "y": 355,
-      "duration": 0.5,
-      "end_x": 666,
-      "end_y": 519,
-      "steps": 3
-    },
-    {
-      "id": "btn_16_1",
-      "type": "click",
-      "x": 957,
-      "y": 849,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_1_copy",
-      "type": "click",
-      "x": 1288,
-      "y": 442,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_2",
-      "type": "click",
-      "x": 881,
-      "y": 838,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_2_copy",
-      "type": "click",
-      "x": 1214,
-      "y": 385,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_3",
-      "type": "click",
-      "x": 791,
-      "y": 851,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_3_copy",
-      "type": "click",
-      "x": 1134,
-      "y": 323,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_4",
-      "type": "click",
-      "x": 705,
-      "y": 852,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_4_copy",
-      "type": "click",
-      "x": 802,
-      "y": 308,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_5",
-      "type": "click",
-      "x": 616,
-      "y": 854,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_16_5_copy",
-      "type": "click",
-      "x": 663,
-      "y": 417,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_5_copy",
-      "type": "click",
-      "x": 735,
-      "y": 363,
-      "duration": 0.5,
-      "end_x": 0,
-      "end_y": 0
-    },
-    {
-      "id": "btn_10",
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 50.0,
+      "duration": 40.0,
       "end_x": 0,
       "end_y": 0
+    },
+    {
+      "id": "btn_5",
+      "type": "drag",
+      "x": 956,
+      "y": 558,
+      "duration": 0.5,
+      "end_x": 958,
+      "end_y": 210
+    },
+    {
+      "id": "btn_6",
+      "type": "click",
+      "x": 523,
+      "y": 840,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_7",
+      "type": "click",
+      "x": 955,
+      "y": 654,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_6_copy",
+      "type": "click",
+      "x": 523,
+      "y": 841,
+      "duration": 0.5,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_24",
+      "type": "wait",
+      "x": 100,
+      "y": 100,
+      "duration": 5.0
+    },
+    {
+      "id": "btn_8",
+      "type": "click",
+      "x": 622,
+      "y": 837,
+      "duration": 0.5
     },
     {
       "id": "btn_9",
       "type": "click",
-      "x": 388,
-      "y": 744,
+      "x": 680,
+      "y": 448,
+      "duration": 0.5
+    },
+    {
+      "id": "btn_10",
+      "type": "click",
+      "x": 1260,
+      "y": 441,
+      "duration": 0.5
+    },
+    {
+      "id": "btn_25",
+      "type": "wait",
+      "x": 100,
+      "y": 100,
+      "duration": 5.0
+    },
+    {
+      "id": "btn_11",
+      "type": "click",
+      "x": 795,
+      "y": 837,
+      "duration": 0.5
+    },
+    {
+      "id": "btn_12",
+      "type": "click_drag",
+      "x": 1520,
+      "y": 240,
+      "duration": 0.5,
+      "end_x": 987,
+      "end_y": 637,
+      "steps": 2
+    },
+    {
+      "id": "btn_13",
+      "type": "click_drag",
+      "x": 406,
+      "y": 238,
+      "duration": 0.5,
+      "end_x": 930,
+      "end_y": 631,
+      "steps": 2
+    },
+    {
+      "id": "btn_26",
+      "type": "wait",
+      "x": 100,
+      "y": 100,
+      "duration": 5.0
+    },
+    {
+      "id": "btn_14",
+      "type": "click",
+      "x": 883,
+      "y": 838,
+      "duration": 0.5
+    },
+    {
+      "id": "btn_15",
+      "type": "click_drag",
+      "x": 1522,
+      "y": 240,
+      "duration": 0.5,
+      "end_x": 988,
+      "end_y": 638,
+      "steps": 6
+    },
+    {
+      "id": "btn_16",
+      "type": "click_drag",
+      "x": 408,
+      "y": 239,
+      "duration": 0.5,
+      "end_x": 930,
+      "end_y": 632,
+      "steps": 6
+    },
+    {
+      "id": "btn_18",
+      "type": "wait",
+      "x": 100,
+      "y": 100,
+      "duration": 60.0,
+      "end_x": 0,
+      "end_y": 0
+    },
+    {
+      "id": "btn_19",
+      "type": "click",
+      "x": 381,
+      "y": 713,
       "duration": 0.5,
       "end_x": 0,
       "end_y": 0
     },
     {
-      "id": "btn_14",
+      "id": "btn_20",
       "type": "wait",
       "x": 100,
       "y": 100,
@@ -230,7 +196,7 @@
       "end_y": 0
     },
     {
-      "id": "btn_11",
+      "id": "btn_21",
       "type": "click",
       "x": 1087,
       "y": 617,
@@ -239,7 +205,7 @@
       "end_y": 0
     },
     {
-      "id": "btn_15",
+      "id": "btn_22",
       "type": "wait",
       "x": 100,
       "y": 100,
@@ -248,7 +214,7 @@
       "end_y": 0
     },
     {
-      "id": "btn_12",
+      "id": "btn_23",
       "type": "click",
       "x": 958,
       "y": 772,
@@ -257,13 +223,11 @@
       "end_y": 0
     },
     {
-      "id": "btn_13",
+      "id": "btn_27",
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 6.0,
-      "end_x": 0,
-      "end_y": 0
+      "duration": 30.0
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "created": "2025-08-29T08:37:31.161550",
-  "auto_stop_minutes": "120",
+  "created": "2025-08-29T20:12:28.491158",
+  "auto_stop_minutes": "30",
   "buttons": [
     {
       "id": "btn_1",
@@ -70,8 +70,8 @@
       "x": 868,
       "y": 260,
       "duration": 0.5,
-      "end_x": 574,
-      "end_y": 495,
+      "end_x": 442,
+      "end_y": 592,
       "steps": 6
     },
     {
@@ -99,8 +99,8 @@
       "x": 865,
       "y": 355,
       "duration": 0.5,
-      "end_x": 666,
-      "end_y": 519,
+      "end_x": 562,
+      "end_y": 597,
       "steps": 3
     },
     {
@@ -207,7 +207,7 @@
       "type": "wait",
       "x": 100,
       "y": 100,
-      "duration": 50.0,
+      "duration": 20.0,
       "end_x": 0,
       "end_y": 0
     },

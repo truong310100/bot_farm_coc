@@ -9,6 +9,7 @@ import time
 import threading
 from models import ActionButton
 from utils.scenario_manager import ScenarioManager
+from utils.sendNoti import send_telegram_message
 
 class AutoClickTool:
     def __init__(self):
@@ -344,6 +345,12 @@ class AutoClickTool:
                 self.root.after(0, lambda: messagebox.showerror("Lỗi", f"Lỗi khi chạy kịch bản: {e}"))
             finally:
                 self.root.after(0, self.stop_scenario)
+                
+                #Gửi anydesk
+                send_telegram_message(
+                f"Đã hoàn thành {self.auto_stop_minutes.get()} phút fam vào lúc: {time.strftime('%H:%M:%S', time.localtime())}\n<a style=\"color: blue;\" href=\"https://qr.myu.vn/anydesk-fx504\">Kiểm tra AnyDesk</a>",
+                parse_mode="HTML")
+
         threading.Thread(target=run_thread, daemon=True).start()
 
     def stop_scenario(self):
